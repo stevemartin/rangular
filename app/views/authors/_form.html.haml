@@ -1,4 +1,4 @@
-= form_for @author do |f|
+= form_for @author, html:{'ng-controller' => 'FormController', 'ng-submit' => 'submitForm()' } do |f|
   - if @author.errors.any?
     #error_explanation
       %h2= "#{pluralize(@author.errors.count, "error")} prohibited this author from being saved:"
@@ -8,9 +8,11 @@
 
   .field
     = f.label :name
-    = f.text_field :name
+    = f.text_field :name, 'ng-model' => 'name'
+    %span{'ng-bind' => 'name'}
   .field
     = f.label :email
-    = f.text_field :email
+    = f.text_field :email, 'ng-model' => 'email'
+    %span{'ng-bind' => 'email'}
   .actions
     = f.submit 'Save'
