@@ -1,5 +1,19 @@
 do (angular)->
 
+  class FormController
+    constructor: (@$scope, @$http)->
+      $scope.submitForm = ->
+        $http.post('/authors', author:{name:$scope.name, email:$scope.email})
+        return false
+
+  class ArticlesController
+    constructor: (@$scope)->
+      $scope.articles = [{}]
+      $scope.addArticle = ->
+        $scope.articles.push( {} )
+      $scope.removeArticle = (index)->
+        $scope.articles.splice(index, 1)
+
   angular.module 'authorsApp', [
     'authorsApp.controllers',
     'authorsApp.directives'
@@ -13,16 +27,9 @@ do (angular)->
     $httpProvider.defaults.headers['common']['X-Requested-With'] = 'XMLHttpRequest'
     ])
 
-
-  class FormController
-    constructor: (@$scope, @$http)->
-      $scope.submitForm = ->
-        $http.post('/authors', author:{name:$scope.name, email:$scope.email})
-        return false
-
   angular.module('authorsApp.controllers',[])
-    .controller 'FormController',['$scope','$http', FormController
-    ]
+    .controller( 'FormController', ['$scope','$http', FormController] )
+    .controller( 'ArticlesController', ['$scope', ArticlesController] )
 
   angular.module('authorsApp.directives', [])
     .directive('peSubmit', (@$compile)->
