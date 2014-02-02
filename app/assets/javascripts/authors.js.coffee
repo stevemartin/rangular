@@ -1,14 +1,15 @@
 do (angular)->
 
   class FormController
-    constructor: (@$scope, @$http)->
+    constructor: (@$scope, @$http, FormData)->
+      $scope.data = FormData
       $scope.submitForm = ->
-        $http.post('/authors', author:{name:$scope.name, email:$scope.email})
+        $http.post('/authors', author:$scope.data)
         return false
 
   class ArticlesController
-    constructor: (@$scope)->
-      $scope.articles = [{}]
+    constructor: (@$scope, FormData)->
+      $scope.articles = FormData['articles']
       $scope.addArticle = ->
         $scope.articles.push( {} )
       $scope.removeArticle = (index)->
@@ -16,6 +17,7 @@ do (angular)->
 
   angular.module 'authorsApp', [
     'authorsApp.controllers',
+    'authorsApp.services',
     'authorsApp.directives'
   ]
 
@@ -28,8 +30,8 @@ do (angular)->
     ])
 
   angular.module('authorsApp.controllers',[])
-    .controller( 'FormController', ['$scope','$http', FormController] )
-    .controller( 'ArticlesController', ['$scope', ArticlesController] )
+    .controller( 'FormController', ['$scope','$http', 'FormData', FormController] )
+    .controller( 'ArticlesController', ['$scope', 'FormData', ArticlesController] )
 
   angular.module('authorsApp.directives', [])
     .directive('peSubmit', (@$compile)->
@@ -40,3 +42,10 @@ do (angular)->
           element.replaceWith(@e)
       }
     )
+  class FormData
+    constructor: (data)->
+      formData = data or {articles:[{}]}
+      return formData
+
+  angular.module('authorsApp.services', [])
+    .factory('FormData', [FormData])
