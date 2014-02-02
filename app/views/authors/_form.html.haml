@@ -14,5 +14,8 @@
     = f.label :email
     = f.text_field :email, 'ng-model' => 'email'
     %span{'ng-bind' => 'email'}
+
+  = render :partial => 'authors/form/articles', locals:{f:f}
+
   .actions
     = f.submit 'Save', 'pe-submit' => true

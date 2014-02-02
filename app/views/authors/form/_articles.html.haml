@@ -1,0 +1,10 @@
+#articles{'ng-controller' => 'ArticlesController'}
+  = f.fields_for :articles do |a|
+    .div{'ng-repeat' => 'article in articles'}
+      .field
+        = a.label :title
+        = a.text_field :title, 'ng-model' => 'title'
+      .field
+        = a.label :description
+        = a.text_area :description, 'ng-model' => 'description'
+
