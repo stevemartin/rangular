@@ -41,7 +41,25 @@ do (angular)->
           @e = $compile(@html)(scope)
           element.replaceWith(@e)
       }
+    ).directive('peAddArticle', (@$compile)->
+      return {
+        link: (scope, element, attrs)->
+          @html = '<a ng-click="addArticle()">Add Article</a>'
+          @e = $compile(@html)(scope)
+          element.replaceWith(@e)
+      }
+    ).directive('peRemoveArticle', (@$compile)->
+      return {
+        scope: {
+          eventHandler: '&ngClick'
+        },
+        link: (scope, element, attrs)->
+          @html = '<a ng-click="eventHandler()">Remove Article</a>'
+          @e = $compile(@html)(scope)
+          element.replaceWith(@e)
+      }
     )
+
   class FormData
     constructor: (data)->
       formData = data or {articles:[{}]}

@@ -7,4 +7,8 @@
       .field
         = a.label :description
         = a.text_area :description, 'ng-model' => 'description'
+      .actions
+        = f.submit 'Remove Article', 'pe-remove-article' => true, 'ng-click' => 'removeArticle($index)'
+  .actions
+    = f.submit 'Add Article', 'pe-add-article' => true
 
