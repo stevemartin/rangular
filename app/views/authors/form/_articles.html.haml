@@ -4,10 +4,10 @@
     .div{'ng-repeat' => 'article in articles'}
       .field
         = a.label :title
-        = a.text_field :title, 'ng-model' => 'title'
+        = a.text_field :title, 'ng-model' => 'article.title'
       .field
         = a.label :description
-        = a.text_area :description, 'ng-model' => 'description'
+        = a.text_area :description, 'ng-model' => 'article.description'
       .actions
         = f.submit 'Remove Article', 'pe-remove-article' => true, 'ng-click' => 'removeArticle($index)', name:"remove_article[#{@index}]"
         - @index += 1
