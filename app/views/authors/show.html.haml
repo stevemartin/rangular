@@ -1,3 +1,5 @@
+%h3
+  Author
 %p#notice= notice
 
 %p
@@ -6,6 +8,18 @@
 %p
   %b Email:
   = @author.email
+
+%h2
+  Articles by #{@author.name}
+%table
+  %tr
+    %th Name
+    %th Email
+
+  - @articles.each do |article|
+    %tr
+      %td= article.title
+      %td= article.description
 
 = link_to 'Edit', edit_author_path(@author)
 \|
