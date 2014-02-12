@@ -1,4 +1,5 @@
 #articles{'ng-controller' => 'ArticlesController'}
+  - @index = 0
   = f.fields_for :articles do |a|
     .div{'ng-repeat' => 'article in articles'}
       .field
@@ -8,7 +9,8 @@
         = a.label :description
         = a.text_area :description, 'ng-model' => 'description'
       .actions
-        = f.submit 'Remove Article', 'pe-remove-article' => true, 'ng-click' => 'removeArticle($index)'
+        = f.submit 'Remove Article', 'pe-remove-article' => true, 'ng-click' => 'removeArticle($index)', name:"remove_article[#{@index}]"
+        - @index += 1
   .actions
-    = f.submit 'Add Article', 'pe-add-article' => true
+    = f.submit 'Add Article', 'pe-add-article' => true, name:'add_article'
 

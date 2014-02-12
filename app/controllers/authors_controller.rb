@@ -25,17 +25,10 @@ class AuthorsController < ApplicationController
   # POST /authors
   # POST /authors.json
   def create
+    # raise StandardError, author_params
     @author = Author.new(author_params)
-
-    respond_to do |format|
-      if @author.save
-        format.html { redirect_to @author, notice: 'Author was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @author }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @author.errors, status: :unprocessable_entity }
-      end
-    end
+    handler = AuthorsHandler.new(self)
+    handler.perform(params, @author)
   end
 
   # PATCH/PUT /authors/1
@@ -62,6 +55,24 @@ class AuthorsController < ApplicationController
     end
   end
 
+  def recycle_form
+    render :new
+  end
+
+  def author_create_succeeded
+    respond_to do |format|
+      format.html { redirect_to @author, notice: 'Author was successfully created.' }
+      format.json { render action: 'show', status: :created, location: @author }
+    end
+  end
+
+  def author_create_failed
+    respond_to do |format|
+      format.html { render action: 'new' }
+      format.json { render json: @author.errors, status: :unprocessable_entity }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_author
@@ -70,6 +81,6 @@ class AuthorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def author_params
-      params.require(:author).permit(:name, :email)
+      params.require(:author).permit(:name, :email, articles_attributes:[:title, :description])
     end
 end
